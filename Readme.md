@@ -1,37 +1,18 @@
 # Nlog.Targets.LocalSyslog
 
 `Nlog.Targets.LocalSyslog` is a custom target for NLog that logs to the local syslog on Linux.  
-This works only on Linux and is abailable with Nlog version 5.0 and later.
+This library makes use of the Linux syslog() system call.
 
-## Available environment
-- Linux only.
+This extension works in the following environment.
+
+- Linux.
 - NLog 5.0 or higher
 - .net standard 2.1 (.NET5, 6, 7)
-
-## Assumed use
-
-This custom target logs Nlog output to Linux local system log. 
-The emmited logs can be contorolled using `rsyslog`, `journal`, or `logrotate`.
-
-For example, use this library to set syslog priority to "local3.*".
-
-```xml
-	<target name="mysyslog" type="LocalSyslog" Facility="local3"/>
-```
-
-Then use `ryslog` to save the log to /var/log/local3.log.
-
-**/etc/rsyslog.d/local3.conf**
-```
-local3.*  -/var/log/local3.log
-```
-
-Of course you can also use `logrotate` to do log-rotation.
-
 
 ## Usage
 
 Reference this DLL in your project, and include `nlog.config` as follows.
+This example sets syslog priority to `local7.*`.
 
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
@@ -64,8 +45,8 @@ logger.Info("test");
 ## implicit value
 
 If you omit some xml-attributes, the following default values will be used.
-Use local0 even if you specify an invalid facility name.
-  
+Even if you specify an invalid facility name, `local0` will be used.
+
 ```
 Facility = "local0"
 layout = "${message:withexception=true}"
